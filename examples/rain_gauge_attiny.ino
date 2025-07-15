@@ -12,12 +12,11 @@
 #include "TinyWireS.h"                          // I2C library for ATtiny84A (and other older ATtinys)
 #endif
 
-const byte I2C_ADDR = 100;           // Meshtastic default
-#define CLEANUP_FLOAT_TIPS 0.28f // mm per tip (DFRobot default)
+const byte I2C_ADDR = 100; // Default address is 0x64
+#define CLEANUP_FLOAT_TIPS 0.28f // mm per tip
 const byte NUM_BYTES = 4;
 
 volatile uint32_t tipCounter = 0;
-// uint32_t tips;
 volatile byte data[NUM_BYTES] = {0, 0, 0, 0};
 
 static inline void initInterrupt(void)
@@ -41,13 +40,7 @@ ISR(PCINT0_vect){
   }
 }
 
-void loop() {
-  // noInterrupts();         // Begin atomic section
-  // tips = tipCounter;      // 4-byte read
-  // interrupts(); 
-  // float rainfall = tips * CLEANUP_FLOAT_TIPS;
-  // memcpy(data, &rainfall, sizeof(rainfall));
-}
+void loop() {}
 
 void onI2CRequest() {
 
@@ -59,13 +52,3 @@ void onI2CRequest() {
   }
   tipCounter = 0;
 }
-
-// void onI2CRequest() {
-//   // noInterrupts();
-//   for (byte i = 0; i < NUM_BYTES; i++) {
-//     TinyWireS.write(data[i]);
-//   }
-//   tipCounter = 0;
-//   // interrupts();
-
-// }
